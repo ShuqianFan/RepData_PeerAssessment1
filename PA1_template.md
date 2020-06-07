@@ -29,8 +29,29 @@ The dataset is stored in a comma-separated-value (CSV) file and there are a tota
 ## Code for reading in the dataset and/or processing the data
 
 Unzip, read original data and load some necessary packages.  
-```{r, echo = TRUE}
+
+```r
 library(dplyr)
+```
+
+```
+## 
+## Attaching package: 'dplyr'
+```
+
+```
+## The following objects are masked from 'package:stats':
+## 
+##     filter, lag
+```
+
+```
+## The following objects are masked from 'package:base':
+## 
+##     intersect, setdiff, setequal, union
+```
+
+```r
 library(ggplot2)
 
 activity <- read.csv('activity.csv')
@@ -41,7 +62,8 @@ activity$date <- as.Date(as.character(activity$date), '%Y-%m-%d')
 ## What is total number of steps taken per day?
 
 Calculate the total number of steps taken per day and make a histogram.
-```{r, echo = TRUE}
+
+```r
 sumday <- activity %>%
         na.omit %>%
         group_by(date) %>%
@@ -50,13 +72,27 @@ colnames(sumday) <- c('date', 'steps')
 hist(sumday$steps, main="Daily Steps", xlab="Number of steps", breaks = 10)
 ```
 
+![](activity_files/figure-html/unnamed-chunk-2-1.png)<!-- -->
+
 ## Mean and median number of steps taken each day
 
-```{r, echo = TRUE}
+
+```r
 summn <- mean(sumday$steps, na.rm = T)
 summd <- median(sumday$steps, na.rm = T)
 summn
+```
+
+```
+## [1] 10766.19
+```
+
+```r
 summd
+```
+
+```
+## [1] 10765
 ```
 
 The mean of number of steps taken each day is 10766.19.  
@@ -65,7 +101,8 @@ The median of number of steps taken each day is 10765.
 ## Time series plot of the average number of steps taken
 
 Make a time series plot group by 5-minute interval and make a line plot.  
-```{r, echo = TRUE}
+
+```r
 timeseries <- 
         activity %>%
         na.omit %>%
@@ -76,19 +113,33 @@ colnames(timeseries) <- c('interval', 'steps')
 with(timeseries, plot(interval, steps, type = 'l'))
 ```
 
+![](activity_files/figure-html/unnamed-chunk-4-1.png)<!-- -->
+
 ## The 5-minute interval that, on average, contains the maximum number of steps
 
 Calculate the maximum value, result is 835, which means 8:35 at morning.  
-```{r, echo = TRUE}
+
+```r
 timeseries$interval[which(timeseries$steps == max(timeseries$steps))]
+```
+
+```
+## [1] 835
 ```
 
 ## Code to describe and show a strategy for imputing missing data  
 
 Method is finding NA values and imputing with 5-minutes interval average.  
-```{r, echo = TRUE}
-sum(is.na(activity$steps))
 
+```r
+sum(is.na(activity$steps))
+```
+
+```
+## [1] 2304
+```
+
+```r
 count = 0
 newactivity <- activity
 i = 1
@@ -103,7 +154,18 @@ for(i in 1:nrow(newactivity)){
 newsum <- aggregate(newactivity$steps, by = list(newactivity$date), sum)
 colnames(newsum) <- c('date', 'steps')
 mean(newsum$steps)
+```
+
+```
+## [1] 10766.19
+```
+
+```r
 median(newsum$steps)
+```
+
+```
+## [1] 10766.19
 ```
 
 Mean and median of new dataset after imputing missing values are both 10766.19.  
@@ -111,14 +173,18 @@ Mean and median of new dataset after imputing missing values are both 10766.19.
 ## Histogram of the total number of steps taken each day after missing values are imputed
 
 And then make a new histogram.  
-```{r, echo = TRUE}
+
+```r
 hist(newsum$steps, main="Daily Steps", xlab="Number of steps", breaks = 10)
 ```
+
+![](activity_files/figure-html/unnamed-chunk-7-1.png)<!-- -->
 
 ## Panel plot comparing the average number of steps taken per 5-minute interval across weekdays and weekends
 
 Separate date by weekdays and weekends, then sort them to a new variable wkdays, then group activity by wkdays.
-```{r, echo = TRUE}
+
+```r
 newactivity$wkdays <- weekdays(newactivity$date)
 i = 0
 for(i in 1:nrow(newactivity)){
@@ -136,7 +202,8 @@ avgwkday <- aggregate(newactivity$steps, by = list(newactivity$wkdays, newactivi
 colnames(avgwkday) <- c('wkday', 'interval', 'steps')
 
 ggplot(avgwkday, aes(interval, steps, color = wkday)) + geom_line()
-
 ```
+
+![](activity_files/figure-html/unnamed-chunk-8-1.png)<!-- -->
 
 

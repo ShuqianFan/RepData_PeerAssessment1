@@ -72,7 +72,7 @@ colnames(sumday) <- c('date', 'steps')
 hist(sumday$steps, main="Daily Steps", xlab="Number of steps", breaks = 10)
 ```
 
-![](activity_files/figure-html/unnamed-chunk-2-1.png)<!-- -->
+![](PA1_template_files/figure-html/unnamed-chunk-2-1.png)<!-- -->
 
 ## Mean and median number of steps taken each day
 
@@ -113,7 +113,7 @@ colnames(timeseries) <- c('interval', 'steps')
 with(timeseries, plot(interval, steps, type = 'l'))
 ```
 
-![](activity_files/figure-html/unnamed-chunk-4-1.png)<!-- -->
+![](PA1_template_files/figure-html/unnamed-chunk-4-1.png)<!-- -->
 
 ## The 5-minute interval that, on average, contains the maximum number of steps
 
@@ -178,7 +178,7 @@ And then make a new histogram.
 hist(newsum$steps, main="Daily Steps", xlab="Number of steps", breaks = 10)
 ```
 
-![](activity_files/figure-html/unnamed-chunk-7-1.png)<!-- -->
+![](PA1_template_files/figure-html/unnamed-chunk-7-1.png)<!-- -->
 
 ## Panel plot comparing the average number of steps taken per 5-minute interval across weekdays and weekends
 
@@ -204,6 +204,6 @@ colnames(avgwkday) <- c('wkday', 'interval', 'steps')
 ggplot(avgwkday, aes(interval, steps, color = wkday)) + geom_line()
 ```
 
-![](activity_files/figure-html/unnamed-chunk-8-1.png)<!-- -->
+![](PA1_template_files/figure-html/unnamed-chunk-8-1.png)<!-- -->
 
 

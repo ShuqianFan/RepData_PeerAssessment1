@@ -130,6 +130,7 @@ timeseries$interval[which(timeseries$steps == max(timeseries$steps))]
 ## Code to describe and show a strategy for imputing missing data  
 
 Method is finding NA values and imputing with 5-minutes interval average.  
+First calculate total numbers of NA.
 
 ```r
 sum(is.na(activity$steps))

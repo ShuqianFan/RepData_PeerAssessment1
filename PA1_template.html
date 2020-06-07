@@ -440,7 +440,8 @@ with(timeseries, plot(interval, steps, type = 'l'))</code></pre>
 </div>
 <div id="code-to-describe-and-show-a-strategy-for-imputing-missing-data" class="section level2">
 <h2>Code to describe and show a strategy for imputing missing data</h2>
-<p>Method is finding NA values and imputing with 5-minutes interval average.</p>
+<p>Method is finding NA values and imputing with 5-minutes interval average.<br />
+First calculate total numbers of NA.</p>
 <pre class="r"><code>sum(is.na(activity$steps))</code></pre>
 <pre><code>## [1] 2304</code></pre>
 <pre class="r"><code>count = 0

@@ -53,6 +53,7 @@ library(dplyr)
 
 ```r
 library(ggplot2)
+library(lattice)
 
 activity <- read.csv('activity.csv')
 activity$date <- as.Date(as.character(activity$date), '%Y-%m-%d')
@@ -110,7 +111,7 @@ timeseries <-
         summarise(mean(steps))
 
 colnames(timeseries) <- c('interval', 'steps')
-with(timeseries, plot(interval, steps, type = 'l'))
+with(timeseries, plot(interval, steps, type = 'l', xlab = 'interval', ylab = 'average steps', main = 'Time series plot of the average number of steps taken' ))
 ```
 
 ![](PA1_template_files/figure-html/unnamed-chunk-4-1.png)<!-- -->
@@ -202,7 +203,8 @@ for(i in 1:nrow(newactivity)){
 avgwkday <- aggregate(newactivity$steps, by = list(newactivity$wkdays, newactivity$interval), mean, na.rm = T)
 colnames(avgwkday) <- c('wkday', 'interval', 'steps')
 
-ggplot(avgwkday, aes(interval, steps, color = wkday)) + geom_line()
+xyplot(data = avgwkday, steps~interval|wkday, type = 'l', layout = c(1, 2), 
+       xlab = "Interval", ylab = "Average Steps", main = "Average Daily Activity Pattern\nWeekday or Weekend")
 ```
 
 ![](PA1_template_files/figure-html/unnamed-chunk-8-1.png)<!-- -->
